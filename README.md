@@ -1,11 +1,12 @@
 # Create HDInsight Linux Cluster with Edge Node
 
 Create an HDInsight Linux Cluster with RedPoint Data Management
+
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fredpoint-global%2Fdm4h-hdi-test%2Fmaster%2Fazuredeploy.json?token=ABhSJckXsYNEKFRhcGrXkuE1w4kzCtkHks5WFAy7wA%3D%3D" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-This template creates an HDInsight Linux cluster in a virtual network with two other VMs:
+This template creates an Azure HDInsight Linux cluster in a virtual network with two other VMs:
 
 * an Ubuntu edge node that is bootstrapped with the cluster's configurations and runs the Data Management server
 * a Windows VM that runs the Data Management client
