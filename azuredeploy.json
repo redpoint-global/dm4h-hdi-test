@@ -135,7 +135,7 @@
         },
         "edgeNodeSetupScriptUri": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/master/edgeNode.sh?token=ABhSJckXsYNEKFRhcGrXkuE1w4kzCtkHks5WFAy7wA%3D%3D",
+            "defaultValue": "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/master/edgeNode.sh",
             "metadata": { 
                 "description": "A public http(s) uri that points to a script that will install an app on the edge node."
             }
