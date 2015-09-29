@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Create an HDInsight Linux Cluster with RedPoint Data Management",
+  "description": "This template creates an Azure HDInsight Linux cluster in a virtual network with two other VMs: (1) an Ubuntu edge node that is bootstrapped with the cluster's configurations and runs the Data Management server; and (2) a Windows VM that runs the Data Management client.",
+  "githubUsername": "chrisleonardi",
+  "summary": "This template creates an Azure HDInsight Linux cluster in a virtual network with two other VMs: (1) an Ubuntu edge node that is bootstrapped with the cluster's configurations and runs the Data Management server; and (2) a Windows VM that runs the Data Management client.",
+  "dateUpdated": "2015-09-29"
+}
