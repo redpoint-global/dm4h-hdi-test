@@ -187,6 +187,7 @@
         "edgeNodeNicName": "[concat(variables('clusterVNetName'), '-', parameters('edgeNodeVirtualMachineName'), '-nic')]",
         "edgeNodePublicIpName": "[concat(variables('edgeNodeNicName'), '-publicip')]",
         "edgeNodeNicSSHSGName": "[concat(variables('edgeNodeNicName'), '-sshrule')]",
+        "clientNodeStorageAccountContainerName": "vhds",
         "clientNodeImagePublisher": "MicrosoftWindowsServer",
         "clientNodeImageOffer": "WindowsServer",
         "clientNodeImageSku": "2012-R2-Datacenter",
