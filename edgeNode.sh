@@ -1,3 +1,4 @@
 #!/bin/bash
 
-return 0;
+# indicate success
+exit 0;
