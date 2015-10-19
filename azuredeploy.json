@@ -208,7 +208,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "[parameters('clusterVNetAddressSpace')]"
+                         "[parameters('clusterVNetAddressSpace')]"
                     ]
                 },
                 "subnets": [
@@ -221,8 +221,18 @@
                 ]
             }
         },
-
-		{
+        {
+            "name": "[parameters('clusterStorageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[parameters('location')]",
+            "apiVersion": "[variables('defaultApiVersion')]",
+            "dependsOn": [ ],
+            "tags": { },
+            "properties": {
+                "accountType": "Standard_LRS"
+            }
+        },
+        {
             "name": "[parameters('clusterName')]",
             "type": "Microsoft.HDInsight/clusters",
             "location": "[parameters('location')]",
