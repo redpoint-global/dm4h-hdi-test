@@ -44,7 +44,7 @@
         },
         "clusterName": {
             "type": "string",
-            "defaultValue": "dm4h-test",
+            "defaultValue": "dm4h",
             "metadata": {
                 "description": "The name of the HDInsight cluster to create."
             }
@@ -69,7 +69,6 @@
         },
         "clusterLoginPassword": {
             "type": "securestring",
-            "defaultValue": "admin",
             "metadata": { 
                 "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
             }
@@ -83,16 +82,8 @@
         },
         "sshPassword": {
             "type": "securestring",
-            "defaultValue": ".RedPoint2015",
             "metadata": { 
                 "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
-            }
-        },
-        "clusterStorageAccountName": {
-            "type": "string",
-            "defaultValue": "dm4htest",
-            "metadata": {
-                "description": "The name of the storage account to be created and be used as the cluster's storage."
             }
         },
         "clusterWorkerNodeCount": {
@@ -102,16 +93,30 @@
                 "description": "The number of nodes in the HDInsight cluster."
             }
         },
+        "clusterStorageAccountName": {
+            "type": "string",
+            "defaultValue": "changeme1",
+            "metadata": {
+                "description": "The name of the storage account to be created and be used as the cluster's storage. Must be unique in all of Azure. [a-z0-9]{3,24}"
+            }
+        },
         "edgeNodeVhdStorageAccountName": {
             "type": "string",
-            "defaultValue": "dm4htestedge",
+            "defaultValue": "changeme2",
             "metadata": {
                 "description": "The name of the storage account to be created and used to store the vhd of the edge node virtual machine."
             }
         },
+        "clientNodeVhdStorageAccountName": {
+            "type": "string",
+            "defaultValue": "changeme3",
+            "metadata": {
+                "description": "The name of the storage account to be created and used to store the vhd of the client node virtual machine."
+            }
+        },
         "edgeNodeVirtualMachineName": {
             "type": "string",
-            "defaultValue": "dm4h-test-edge",
+            "defaultValue": "hd4hedge",
             "metadata": {
                 "description": "The name of the edge node virtual machine."
             }
@@ -135,21 +140,14 @@
         },
         "edgeNodeSetupScriptUri": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/master/edgeNode.sh",
+            "defaultValue": "http://ac.joshco.com/rpdmsetup",
             "metadata": { 
                 "description": "A public http(s) uri that points to a script that will install an app on the edge node."
             }
         },
-        "clientNodeVhdStorageAccountName": {
-            "type": "string",
-            "defaultValue": "dm4htestclient",
-            "metadata": {
-                "description": "The name of the storage account to be created and used to store the vhd of the client node virtual machine."
-            }
-        },
         "clientNodeVirtualMachineName": {
             "type": "string",
-            "defaultValue": "dm4h-test-client",
+            "defaultValue": "dm4hclient",
             "metadata": {
                 "description": "The name of the client node virtual machine."
             }
