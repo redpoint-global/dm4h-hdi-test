@@ -116,7 +116,7 @@
         },
         "edgeNodeVirtualMachineName": {
             "type": "string",
-            "defaultValue": "hd4hedge",
+            "defaultValue": "dm4hedge",
             "metadata": {
                 "description": "The name of the edge node virtual machine."
             }

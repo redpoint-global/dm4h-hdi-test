@@ -104,8 +104,8 @@ hosts=$(echo $hostsJson | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text
 echo $hosts
 
 echo "Extracting headnode0 and headnode1"
-headnode0=$(echo $hosts | grep -Eo '\bhn0-([^[:space:]]*)\b')
-headnode1=$(echo $hosts | grep -Eo '\bhn1-([^[:space:]]*)\b')
+headnode0=$(echo $hosts | grep -Eo '\bhn0-([^[:space:]]*)\b' | head -1 )
+headnode1=$(echo $hosts | grep -Eo '\bhn1-([^[:space:]]*)\b' | head -1 )
 echo "headnode0: $headnode0, headnode1: $headnode1"
 
 echo "Extracting headnode0 and headnode1 IP addresses"
