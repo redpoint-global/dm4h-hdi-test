@@ -4,11 +4,12 @@ clusterSshUser=$3
 clusterSshPw=$4
 clusterLogin=$5
 clusterPassword=$6
+#unused for now
 customParameter=$7
 
 clusterSshHostName="$clustername-ssh.azurehdinsight.net"
 echo "Adding cluster host to known hosts if not exist"
-knownHostKey=$(ssh-keygen -H -F $clusterSshHostName 2>/dev/null)
+knownHostKey=$(ssh-keygen -H -F $clusterSshHostName -f ~/.ssh/known_hosts 2>/dev/null)
 if [ -z "$knownHostKey" ]
 then
 ssh-keyscan -H $clusterSshHostName >> ~/.ssh/known_hosts
@@ -49,7 +50,7 @@ echo "Zipping binaries on headnode"
 bitsFileName=hdpBits.tar.gz
 loggingBitsFileName=loggingBits.tar.gz
 tmpRemoteFolderName=tmpBits
-sshpass -p $clusterSshPw ssh $clusterSshUser@$clusterSshHostName "mkdir ~/$tmpRemoteFolderName"
+sshpass -p $clusterSshPw ssh $clusterSshUser@$clusterSshHostName "mkdir -p ~/$tmpRemoteFolderName"
 sshpass -p $clusterSshPw ssh $clusterSshUser@$clusterSshHostName "tar -cvzf ~/$tmpRemoteFolderName/$bitsFileName $binariesLocation &>/dev/null"
 sshpass -p $clusterSshPw ssh $clusterSshUser@$clusterSshHostName "tar -cvzf ~/$tmpRemoteFolderName/$loggingBitsFileName /usr/lib/hdinsight-logging &>/dev/null"
 #Copy the binaries
@@ -67,7 +68,7 @@ sshpass -p $clusterSshPw ssh $clusterSshUser@$clusterSshHostName "rm -rf ~/$tmpR
 #Copy all from the temp directory into the final directory
 echo "Copy all from the temp directory into the final directory"
 cp -rf $tmpFilePath/* /
-rm -rf $tmpFilePath
+#rm -rf $tmpFilePath
 
 #Install Java
 echo "Installing Java"
@@ -162,6 +163,6 @@ mkdir $APP_TEMP_INSTALLDIR
 wget $appInstallScriptUri -P $APP_TEMP_INSTALLDIR
 cd $APP_TEMP_INSTALLDIR 
 #Output the stdout and stderror to the app directory
-sudo -E bash $(basename "$appInstallScriptUri") $clustername $clusterLogin $clusterPassword $customParameter >output 2>error
+sudo -E bash $(basename "$appInstallScriptUri") $clustername $clusterSshUser $clusterSshPw  >output 2>error
 # indicate success
 exit 0;
