@@ -464,7 +464,7 @@
                         "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/edgetest/edgeNode.sh",
                         "[parameters('edgeNodeSetupScriptUri')]"
                     ],
-                    "commandToExecute": "[concat('sudo -E bash edgeNodeSetup.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('sshUserName'),' ',parameters('sshPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'))]"
+                    "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('sshUserName'),' ',parameters('sshPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'))]"
                 }
             }
         },
