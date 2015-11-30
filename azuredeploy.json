@@ -409,7 +409,8 @@
             "apiVersion": "[variables('defaultApiVersion')]",
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('edgeNodeVhdStorageAccountName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('edgeNodeNicName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('edgeNodeNicName'))]",
+                "[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
             ],
             "tags": { },
             "properties": {

@@ -23,7 +23,7 @@ apt-get -y -qq install sshpass
 echo "Copying configs and cluster resources local"
 tmpFilePath=~/tmpConfigs
 mkdir -p $tmpFilePath
-RESOURCEPATHS=(/etc/hadoop/conf /etc/hive/conf /etc/hbase/conf /var/lib/ambari-server/resources/scripts)
+RESOURCEPATHS=(/etc/hadoop/conf /etc/hive/conf /etc/hbase/conf /var/lib/ambari-server/resources/scripts /usr/lib/bigtop-utils)
 for path in "${RESOURCEPATHS[@]}"
 do
 mkdir -p "$tmpFilePath/$path"
