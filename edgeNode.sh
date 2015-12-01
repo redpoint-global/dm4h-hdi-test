@@ -4,8 +4,8 @@ clusterSshUser=$3
 clusterSshPw=$4
 clusterLogin=$5
 clusterPassword=$6
-#unused for now
-customParameter=$7
+clusterStorageAccount=$7
+
 
 clusterSshHostName="$clustername-ssh.azurehdinsight.net"
 echo "Adding cluster host to known hosts if not exist"
@@ -156,13 +156,13 @@ start webwasb
 sleep 20
 
 #Get and execute app install script Uri
-APP_TEMP_INSTALLDIR=/var/log/hdiapp
+APP_TEMP_INSTALLDIR=/mnt/hdiapp
 rm -rf $APP_TEMP_INSTALLDIR
 mkdir $APP_TEMP_INSTALLDIR
 
 wget $appInstallScriptUri -P $APP_TEMP_INSTALLDIR
 cd $APP_TEMP_INSTALLDIR 
 #Output the stdout and stderror to the app directory
-sudo -E bash $(basename "$appInstallScriptUri") $clustername $clusterSshUser $clusterSshPw  >output 2>error
+sudo -E bash $(basename "$appInstallScriptUri") $clustername $clusterSshUser $clusterSshPw $clusterStorageAccount  >output 2>error
 # indicate success
 exit 0;

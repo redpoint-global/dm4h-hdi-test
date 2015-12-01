@@ -62,7 +62,7 @@
         },
         "clusterLoginUserName": {
             "type": "string",
-            "defaultValue": "admin",
+            "defaultValue": "dm4h",
             "metadata": {
                 "description": "These credentials can be used to submit jobs to the cluster and to log into cluster dashboards."
             }
@@ -465,7 +465,7 @@
                         "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/edgetest/edgeNode.sh",
                         "[parameters('edgeNodeSetupScriptUri')]"
                     ],
-                    "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('sshUserName'),' ',parameters('sshPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'))]"
+                    "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('sshUserName'),' ',parameters('sshPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterStorageAccountName'))]"
                 }
             }
         },
