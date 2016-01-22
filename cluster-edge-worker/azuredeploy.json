@@ -21,43 +21,11 @@
                 "description": "The location where all azure resources will be deployed."
             }
         },
-        "clusterVNetAddressSpace": {
-            "type": "string",
-            "defaultValue": "10.0.0.0/16",
-            "metadata": {
-                "description": "The virtual network's address range in CIDR notion. It must be contained in one of the standard private address spaces: 10.0.0.0/8, 172.160.0.0/12, or 192.168.0.0/16."
-            }
-        },
-        "clusterVNetSubnetName": {
-            "type": "string",
-            "defaultValue": "default",
-            "metadata": {
-                "description": "The name of the subnet to create in the virtual network."
-            }
-        },
-        "clusterVNetSubnetAddressRange": {
-            "type": "string",
-            "defaultValue": "10.0.0.0/24",
-            "metadata": {
-                "description": "The subnet's address range in CIDR notation. It must be contained by the address space of the virtual network."
-            }
-        },
         "clusterName": {
             "type": "string",
             "defaultValue": "dm4h",
             "metadata": {
                 "description": "The name of the HDInsight cluster to create."
-            }
-        },
-        "clusterType": {
-            "type": "string",
-            "defaultValue": "hadoop",
-            "allowedValues": [
-                "hadoop",
-                "hbase"
-            ],
-            "metadata": {
-                "description": "The type of HDInsight cluster to create."
             }
         },
         "clusterLoginUserName": {
@@ -68,19 +36,6 @@
             }
         },
         "clusterLoginPassword": {
-            "type": "securestring",
-            "metadata": { 
-                "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
-            }
-        },
-        "sshUserName": {
-            "type": "string",
-            "defaultValue": "dm4h",
-            "metadata": {
-                "description": "These credentials can be used to remotely access the cluster and the edge node virtual machine."
-            }
-        },
-        "sshPassword": {
             "type": "securestring",
             "metadata": { 
                 "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
@@ -173,10 +128,17 @@
     "variables": {
         "defaultApiVersion": "2015-05-01-preview",
         "clusterApiVersion": "2015-03-01-preview",
+
+        "clusterVNetAddressSpace": "10.0.0.0/16",
+        "clusterVNetSubnetName": "default",
+        "clusterVNetSubnetAddressSpace": "10.0.0.0/24",
         "clusterVNetName": "[concat(parameters('clusterName'),'-vnet')]",
-        "edgeNodeStorageAccountContainerName": "vhds",
+		"clusterType" : "hadoop",
+
         "hadoopZookeeperSize": "Small",
         "hbaseZookeeperSize": "Medium",
+
+        "edgeNodeStorageAccountContainerName": "vhds",
         "edgeNodeImagePublisher": "Canonical",
         "edgeNodeImageOffer": "UbuntuServer",
         "edgeNodeImageSku": "12.04.5-LTS",
@@ -185,6 +147,7 @@
         "edgeNodeNicName": "[concat(variables('clusterVNetName'), '-', parameters('edgeNodeVirtualMachineName'), '-nic')]",
         "edgeNodePublicIpName": "[concat(variables('edgeNodeNicName'), '-publicip')]",
         "edgeNodeNicSSHSGName": "[concat(variables('edgeNodeNicName'), '-sshrule')]",
+
         "clientNodeStorageAccountContainerName": "vhds",
         "clientNodeImagePublisher": "MicrosoftWindowsServer",
         "clientNodeImageOffer": "WindowsServer",
@@ -206,14 +169,14 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                         "[parameters('clusterVNetAddressSpace')]"
+                         "[variables('clusterVNetAddressSpace')]"
                     ]
                 },
                 "subnets": [
                     {
-                        "name": "[parameters('clusterVNetSubnetName')]",
+                        "name": "[variables('clusterVNetSubnetName')]",
                         "properties": {
-                            "addressPrefix": "[parameters('clusterVNetSubnetAddressRange')]"
+                            "addressPrefix": "[variables('clusterVNetSubnetAddressSpace')]"
                         }
                     }
                 ]
@@ -244,7 +207,7 @@
                 "clusterVersion": "3.2",
                 "osType": "Linux",
                 "clusterDefinition": {
-                    "kind": "[parameters('clusterType')]",
+                    "kind": "hadoop",
 
                     "configurations": {
                         "gateway": {
@@ -274,13 +237,13 @@
                             },
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {
-                                    "username": "[parameters('sshUserName')]",
-                                    "password": "[parameters('sshPassword')]"
+                                    "username": "[parameters('clusterLoginUserName')]",
+                                    "password": "[parameters('clusterLoginPassword')]"
                                 }
                             },
                             "virtualNetworkProfile": {
                                 "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName'))]",
-                                "subnet": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', parameters('clusterVNetSubnetName'))]"
+                                "subnet": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', variables('clusterVNetSubnetName'))]"
                             }
                         },
                         {
@@ -291,30 +254,30 @@
                             },
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {
-                                    "username": "[parameters('sshUserName')]",
-                                    "password": "[parameters('sshPassword')]"
+                                    "username": "[parameters('clusterLoginUserName')]",
+                                    "password": "[parameters('clusterLoginPassword')]"
                                 }
                             },
                             "virtualNetworkProfile": {
                                 "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName'))]",
-                                "subnet": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', parameters('clusterVNetSubnetName'))]"
+                                "subnet": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', variables('clusterVNetSubnetName'))]"
                             }
                         },
                         {
                             "name": "zookeepernode",
                             "targetInstanceCount": "3",
                             "hardwareProfile": {
-                                "vmSize": "[variables(concat(parameters('clusterType'),'ZookeeperSize'))]"
+                                "vmSize": "[variables(concat(variables('clusterType'),'ZookeeperSize'))]"
                             },
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {
-                                    "username": "[parameters('sshUserName')]",
-                                    "password": "[parameters('sshPassword')]"
+                                    "username": "[parameters('clusterLoginUserName')]",
+                                    "password": "[parameters('clusterLoginPassword')]"
                                 }
                             },
                             "virtualNetworkProfile": {
                                 "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName'))]",
-                                "subnet": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', parameters('clusterVNetSubnetName'))]"
+                                "subnet": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', variables('clusterVNetSubnetName'))]"
                             }
                         }
                     ]
@@ -389,7 +352,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', parameters('clusterVNetSubnetName'))]"
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', variables('clusdterVNetSubnetName'))]"
                             },
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('edgeNodePublicIpName'))]"
@@ -419,8 +382,8 @@
                 },
                 "osProfile": {
                     "computername": "[parameters('edgeNodeVirtualMachineName')]",
-                    "adminUsername": "[parameters('sshUserName')]",
-                    "adminPassword": "[parameters('sshPassword')]"
+                    "adminUsername": "[parameters('clusterLoginUserName')]",
+                    "adminPassword": "[parameters('clusterLoginPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
@@ -465,7 +428,7 @@
                         "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/edgetest/edgeNode.sh",
                         "[parameters('edgeNodeSetupScriptUri')]"
                     ],
-                    "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('sshUserName'),' ',parameters('sshPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterStorageAccountName'))]"
+                    "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterStorageAccountName'))]"
                 }
             }
         },
@@ -537,7 +500,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', parameters('clusterVNetSubnetName'))]"
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', variables('clusdterVNetSubnetName'))]"
                             },
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('clientNodePublicIpName'))]"
@@ -566,8 +529,8 @@
                 },
                 "osProfile": {
                     "computername": "[parameters('clientNodeVirtualMachineName')]",
-                    "adminUsername": "[parameters('sshUserName')]",
-                    "adminPassword": "[parameters('sshPassword')]"
+                    "adminUsername": "[parameters('clusterLoginUserName')]",
+                    "adminPassword": "[parameters('clusterLoginPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
