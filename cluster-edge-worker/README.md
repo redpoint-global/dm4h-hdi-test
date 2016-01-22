@@ -12,6 +12,6 @@ located at /etc/hadoop/conf <br />
 **_Note that Data Management must be licensed before use. Azure usage charges will
 be assessed as soon as you deploy this stack; consider contacting RedPoint Sales prior to deployment._**
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fredpoint-global%2Fdm4h-hdi-test%2Fcluster-edge-worker%2Fmaster%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fredpoint-global%2Fdm4h-hdi-test%2Fmaster%2Fcluster-edge-worker%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
