@@ -48,25 +48,11 @@
                 "description": "The number of nodes in the HDInsight cluster."
             }
         },
-        "clusterStorageAccountName": {
+        "storageAccountName": {
             "type": "string",
             "defaultValue": "changeme1",
             "metadata": {
-                "description": "The name of the storage account to be created and be used as the cluster's storage. Must be unique in all of Azure. [a-z0-9]{3,24}"
-            }
-        },
-        "edgeNodeVhdStorageAccountName": {
-            "type": "string",
-            "defaultValue": "changeme2",
-            "metadata": {
-                "description": "The name of the storage account to be created and used to store the vhd of the edge node virtual machine."
-            }
-        },
-        "clientNodeVhdStorageAccountName": {
-            "type": "string",
-            "defaultValue": "changeme3",
-            "metadata": {
-                "description": "The name of the storage account to be created and used to store the vhd of the client node virtual machine."
+                "description": "The name of the storage account to be used as for VM and cluster storage. Must be an existing storage account"
             }
         },
         "edgeNodeVirtualMachineName": {
@@ -95,7 +81,7 @@
         },
         "edgeNodeSetupScriptUri": {
             "type": "string",
-            "defaultValue": "http://ac.joshco.com/rpdmsetup",
+            "defaultValue": "https://redpoint.blob.core.windows.net/rpdm7/rpdmsetup",
             "metadata": { 
                 "description": "A public http(s) uri that points to a script that will install an app on the edge node."
             }
@@ -183,23 +169,12 @@
             }
         },
         {
-            "name": "[parameters('clusterStorageAccountName')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "location": "[parameters('location')]",
-            "apiVersion": "[variables('defaultApiVersion')]",
-            "dependsOn": [ ],
-            "tags": { },
-            "properties": {
-                "accountType": "Standard_LRS"
-            }
-        },
-        {
             "name": "[parameters('clusterName')]",
             "type": "Microsoft.HDInsight/clusters",
             "location": "[parameters('location')]",
             "apiVersion": "[variables('clusterApiVersion')]",
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/',parameters('clusterStorageAccountName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccountName'))]",
                 "[concat('Microsoft.Network/virtualNetworks/',variables('clusterVNetName'))]"
             ],
             "tags": { },
@@ -220,10 +195,10 @@
                 "storageProfile": {
                     "storageaccounts": [
                         {
-                            "name": "[concat(parameters('clusterStorageAccountName'),'.blob.core.windows.net')]",
+                            "name": "[concat(parameters('storageAccountName'),'.blob.core.windows.net')]",
                             "isDefault": true,
                             "container": "[parameters('clusterName')]",
-                            "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('clusterStorageAccountName')), variables('defaultApiVersion')).key1]"
+                            "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), variables('defaultApiVersion')).key1]"
                         }
                     ]
                 },
@@ -282,17 +257,6 @@
                         }
                     ]
                 }
-            }
-        },
-        {
-            "name": "[parameters('edgeNodeVhdStorageAccountName')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "location": "[parameters('location')]",
-            "apiVersion": "[variables('defaultApiVersion')]",
-            "dependsOn": [ ],
-            "tags": { },
-            "properties": {
-                "accountType": "Standard_LRS"
             }
         },
         {
@@ -371,7 +335,7 @@
             "location": "[parameters('location')]",
             "apiVersion": "[variables('defaultApiVersion')]",
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', parameters('edgeNodeVhdStorageAccountName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
                 "[concat('Microsoft.Network/networkInterfaces/', variables('edgeNodeNicName'))]",
                 "[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
             ],
@@ -395,7 +359,7 @@
                     "osDisk": {
                         "name": "edgeNodeOSDisk",
                         "vhd": {
-                            "uri": "[concat('http://', parameters('edgeNodeVhdStorageAccountName'), '.blob.core.windows.net/', variables('edgeNodeStorageAccountContainerName'), '/', variables('edgeNodeOSDiskName'), '.vhd')]"
+                            "uri": "[concat('http://', parameters('storageAccountName'), '.blob.core.windows.net/', variables('edgeNodeStorageAccountContainerName'), '/', variables('edgeNodeOSDiskName'), '.vhd')]"
                         },
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
@@ -428,19 +392,8 @@
                         "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/edgetest/edgeNode.sh",
                         "[parameters('edgeNodeSetupScriptUri')]"
                     ],
-                    "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterStorageAccountName'))]"
+                    "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('storageAccountName'))]"
                 }
-            }
-        },
-        {
-            "name": "[parameters('clientNodeVhdStorageAccountName')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "location": "[parameters('location')]",
-            "apiVersion": "[variables('defaultApiVersion')]",
-            "dependsOn": [ ],
-            "tags": { },
-            "properties": {
-                "accountType": "Standard_LRS"
             }
         },
         {
@@ -519,7 +472,7 @@
             "location": "[parameters('location')]",
             "apiVersion": "[variables('defaultApiVersion')]",
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', parameters('clientNodeVhdStorageAccountName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
                 "[concat('Microsoft.Network/networkInterfaces/', variables('clientNodeNicName'))]"
             ],
             "tags": { },
@@ -542,7 +495,7 @@
                     "osDisk": {
                         "name": "clientNodeOSDisk",
                         "vhd": {
-                            "uri": "[concat('http://', parameters('clientNodeVhdStorageAccountName'), '.blob.core.windows.net/', variables('clientNodeStorageAccountContainerName'), '/', variables('clientNodeOSDiskName'), '.vhd')]"
+                            "uri": "[concat('http://', parameters('storageAccountName'), '.blob.core.windows.net/', variables('clientNodeStorageAccountContainerName'), '/', variables('clientNodeOSDiskName'), '.vhd')]"
                         },
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
