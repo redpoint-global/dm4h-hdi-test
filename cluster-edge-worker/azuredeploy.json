@@ -18,7 +18,7 @@
                 "West US"
             ],
             "metadata": {
-                "description": "The location where all azure resources will be deployed."
+                "description": "The location where all RPDM resources will be deployed."
             }
         },
         "clusterName": {
@@ -387,7 +387,7 @@
                 "typeHandlerVersion": "1.2",
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/edgetest/edgeNode.sh",
+                        "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/master/cluster-edge-worker/edgeNode.sh",
                         "[parameters('edgeNodeSetupScriptUri')]"
                     ],
                     "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('storageAccountName'))]"
