@@ -55,6 +55,13 @@
                 "description": "The name of the subnet to create in the virtual network."
             }
         },
+		"newOrExisting": {
+			"type": "string",
+			"allowedValues" : [ "new", "existing"],
+			"metadata" : {
+				"description": "Choose an existing storage account or create a new one"
+ 			}
+		},
         "storageAccountName": {
             "type": "string",
             "defaultValue": "changeme1",
@@ -98,6 +105,8 @@
         "defaultApiVersion": "2015-05-01-preview",
         "clusterApiVersion": "2015-03-01-preview",
 
+		"storagelink": "[concat('https://', variables(storageAccountName), '.blob.core.windows.net/templates/',parameters('newOrExisting'),’Storage.json')]",
+
         "edgeNodeStorageAccountContainerName": "vhds",
         "edgeNodeImagePublisher": "Canonical",
         "edgeNodeImageOffer": "UbuntuServer",
@@ -109,6 +118,18 @@
         "edgeNodeNicSSHSGName": "[concat(variables('edgeNodeNicName'), '-sshrule')]"
     },
     "resources": [
+		{
+			"type": "Microsoft.Storage/storageAccounts",
+			"name": "[variables('storageAccountName')]",
+			"apiVersion": "[variables('defaultApiVersion')]",
+			"location": "[resourceGroup().location]",
+ 			"properties": {
+				"accountType": "Stanard_LRS"
+			},
+			"templateLink": {
+				"uri": "[variables('storagelink')]", "contentVersion": "1.0.0.0"
+            }
+		},
         {
             "name": "[variables('edgeNodePublicIpName')]",
             "type": "Microsoft.Network/publicIPAddresses",
@@ -183,7 +204,8 @@
             "location": "[parameters('location')]",
             "apiVersion": "[variables('defaultApiVersion')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', variables('edgeNodeNicName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('edgeNodeNicName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/',parameters('storageAccountName'))]",
             ],
             "tags": { },
             "properties": {
