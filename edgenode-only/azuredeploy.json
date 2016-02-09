@@ -41,7 +41,7 @@
                 "description": "The corresponding password."
             }
         },
-        "clusterVNetName" {
+        "clusterVNetName": {
             "type": "string",
             "defaultValue": "cluster-vnet",
             "metadata": {
