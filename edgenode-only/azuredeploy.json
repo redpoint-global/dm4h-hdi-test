@@ -41,6 +41,20 @@
                 "description": "The corresponding password."
             }
         },
+        "clusterVNetName" {
+            "type": "string",
+            "defaultValue": "cluster-vnet",
+            "metadata": {
+                "description": "The name of the virtual network that contains the cluster."
+            }
+        },
+        "clusterVNetSubnetName": {
+            "type": "string",
+            "defaultValue": "default",
+            "metadata": {
+                "description": "The name of the subnet to create in the virtual network."
+            }
+        },
         "storageAccountName": {
             "type": "string",
             "defaultValue": "changeme1",
@@ -75,7 +89,7 @@
         "edgeNodeSetupScriptUri": {
             "type": "string",
             "defaultValue": "https://redpoint.blob.core.windows.net/rpdm7/rpdmsetup",
-            "metadata": { 
+            "metadata": {
                 "description": "A public http(s) uri that points to a script that will install an app on the edge node."
             }
         }
@@ -84,15 +98,13 @@
         "defaultApiVersion": "2015-05-01-preview",
         "clusterApiVersion": "2015-03-01-preview",
 
-        "clusterVNetName": "[concat(parameters('clusterName'),'-vnet')]",
-
         "edgeNodeStorageAccountContainerName": "vhds",
         "edgeNodeImagePublisher": "Canonical",
         "edgeNodeImageOffer": "UbuntuServer",
         "edgeNodeImageSku": "12.04.5-LTS",
         "edgeNodeExtensionName": "edgeNodeSetup",
         "edgeNodeOSDiskName": "[concat(parameters('clusterName'), '-', parameters('edgeNodeVirtualMachineName'))]",
-        "edgeNodeNicName": "[concat(variables('clusterVNetName'), '-', parameters('edgeNodeVirtualMachineName'), '-nic')]",
+        "edgeNodeNicName": "[concat(parameters('clusterVNetName'), '-', parameters('edgeNodeVirtualMachineName'), '-nic')]",
         "edgeNodePublicIpName": "[concat(variables('edgeNodeNicName'), '-publicip')]",
         "edgeNodeNicSSHSGName": "[concat(variables('edgeNodeNicName'), '-sshrule')]"
     },
@@ -152,7 +164,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('clusterVNetName')), '/subnets/', variables('clusterVNetSubnetName'))]"
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('clusterVNetName')), '/subnets/', parameters('clusterVNetSubnetName'))]"
                             },
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('edgeNodePublicIpName'))]"
