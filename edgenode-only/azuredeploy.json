@@ -102,9 +102,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "location": "[parameters('location')]",
             "apiVersion": "[variables('defaultApiVersion')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/',variables('clusterVNetName'))]"
-            ],
+            "dependsOn": [ ],
             "tags": { },
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
