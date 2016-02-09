@@ -1,7 +1,7 @@
 {
   "itemDisplayName": "Extend an HDInsight Linux Cluster with RedPoint Data Management",
-  "description": "This template adds an edgenode VM to an existing Azure HDInsight Linux cluster. The edgenode will be an Ubuntu edge node that is bootstrapped with the cluster's configurations and runs the Data Management server; You must also have Client software is installed and configured.  You will need to manually license this product after installation completes.",
+  "description": "This template adds an edgenode VM to an existing Azure HDInsight Linux cluster. The edgenode will be an Ubuntu edge node that is bootstrapped with the cluster's configurations and runs the Data Management server; You must also have Client software installed and configured to access the server. Lastly, you will need to manually license this product after installation completes.",
   "githubUsername": "chrisleonardi",
-  "summary": "This template creates and configures a single VM: (1) an Ubuntu edge node that is bootstrapped with the cluster's configurations and runs the Data Management server",
+  "summary": "This template creates and configures a single VM: an Ubuntu edge node that is bootstrapped with the cluster's configurations and runs the Data Management server",
   "dateUpdated": "2016-02-08"
 }

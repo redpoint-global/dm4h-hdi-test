@@ -171,8 +171,7 @@
             "location": "[parameters('location')]",
             "apiVersion": "[variables('defaultApiVersion')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', variables('edgeNodeNicName'))]",
-                "[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('edgeNodeNicName'))]"
             ],
             "tags": { },
             "properties": {
