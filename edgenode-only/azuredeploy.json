@@ -234,8 +234,7 @@
                 "typeHandlerVersion": "1.2",
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/master/cluster-edge-worker/edgeNode.sh",
-                        "[parameters('edgeNodeSetupScriptUri')]"
+                        "https://raw.githubusercontent.com/redpoint-global/dm4h-hdi-test/master/cluster-edge-worker/edgeNode.sh"
                     ],
                     "commandToExecute": "[concat('sudo -E bash edgeNode.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'),' ',parameters('storageAccountName'))]"
                 }
