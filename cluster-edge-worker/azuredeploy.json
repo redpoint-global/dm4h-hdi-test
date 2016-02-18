@@ -505,8 +505,18 @@
                     ]
                 }
             }
-        }
-
+        },
+		{
+			"publisher": "Microsoft.Compute",
+			"type" : "CustomScriptExtension",
+			"typeHandlerVersion", "1.4",
+			"settings": {
+				"fileUris": [
+					"https://redpoint.blob.core.windows.net/rpdm7/clientsetup.ps1"
+				],
+				"commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File clientsetup.ps1"
+			}
+		}
     ],
     "outputs": {
         "vnet": {

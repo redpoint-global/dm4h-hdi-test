@@ -164,5 +164,10 @@ wget $appInstallScriptUri -P $APP_TEMP_INSTALLDIR
 cd $APP_TEMP_INSTALLDIR 
 #Output the stdout and stderror to the app directory
 sudo -E bash $(basename "$appInstallScriptUri") $clustername $clusterSshUser $clusterSshPw $clusterStorageAccount  >output 2>error
+
+# we need to reboot but the script does not really allow for it because it requires the script to return
+# so wait 5 minutes and reboot
+sudo nohup sh -c "sleep 300; reboot" &
+
 # indicate success
 exit 0;
