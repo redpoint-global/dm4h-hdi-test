@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Extend an HDInsight Linux Cluster with RedPoint Data Management client software",
+  "description": "This template adds a Windows(tm) VM to an existing Azure HDInsight Linux cluster. The worker will be a Windows(tm) machine that runs the Data Management client software; You must also have server software installed and configured on an edgenode. Lastly, you will need to manually license this product after installation completes.",
+  "githubUsername": "chrisleonardi",
+  "summary": "This template creates and configures a single VM: a Windows(tm) server that runs the Data Management client application",
+  "dateUpdated": "2016-02-18"
+}
