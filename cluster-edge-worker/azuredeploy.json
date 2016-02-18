@@ -509,7 +509,10 @@
 		{
 			"publisher": "Microsoft.Compute",
 			"type" : "CustomScriptExtension",
-			"typeHandlerVersion", "1.4",
+			"typeHandlerVersion": "1.4",
+            "dependsOn": [
+				"[concat('Microsoft.Compute/virtualMachines/', parameters('clientNodeVirtualMachineName'))]"
+			],
 			"settings": {
 				"fileUris": [
 					"https://redpoint.blob.core.windows.net/rpdm7/clientsetup.ps1"
