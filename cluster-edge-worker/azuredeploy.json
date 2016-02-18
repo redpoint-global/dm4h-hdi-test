@@ -119,7 +119,7 @@
         "clusterVNetSubnetName": "default",
         "clusterVNetSubnetAddressSpace": "10.0.0.0/24",
         "clusterVNetName": "[concat(parameters('clusterName'),'-vnet')]",
-		"clusterType" : "hadoop",
+        "clusterType" : "hadoop",
 
         "hadoopZookeeperSize": "Small",
         "hbaseZookeeperSize": "Medium",
@@ -142,7 +142,8 @@
         "clientNodeOSDiskName": "[concat(parameters('clusterName'), '-', parameters('clientNodeVirtualMachineName'))]",
         "clientNodeNicName": "[concat(variables('clusterVNetName'), '-', parameters('clientNodeVirtualMachineName'), '-nic')]",
         "clientNodePublicIpName": "[concat(variables('clientNodeNicName'), '-publicip')]",
-        "clientNodeNicRDPSGName": "[concat(variables('clientNodeNicName'), '-rdprule')]"
+        "clientNodeNicRDPSGName": "[concat(variables('clientNodeNicName'), '-rdprule')]",
+        "clientNodeScript": "https://redpoint.blob.core.windows.net/rpdm7/clientsetup.ps1"
     },
     "resources": [
         {
@@ -506,20 +507,24 @@
                 }
             }
         },
-		{
-			"publisher": "Microsoft.Compute",
-			"type" : "CustomScriptExtension",
-			"typeHandlerVersion": "1.4",
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(variables('vmName'),'/CustomScriptExtension')]",
+            "apiVersion": "2015-05-01-preview",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
-				"[concat('Microsoft.Compute/virtualMachines/', parameters('clientNodeVirtualMachineName'))]"
-			],
-			"settings": {
-				"fileUris": [
-					"https://redpoint.blob.core.windows.net/rpdm7/clientsetup.ps1"
-				],
-				"commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File clientsetup.ps1"
-			}
-		}
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('clientNodeVirtualMachineName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.2",
+                "settings": {
+                    "fileUris": [ "[variables('clientNodeScript')]" ],
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ',variables('clientNodeScript'))]"
+                }
+            }
+        }
     ],
     "outputs": {
         "vnet": {
