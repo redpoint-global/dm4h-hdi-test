@@ -11,3 +11,7 @@ be assessed as soon as you deploy this stack; consider contacting RedPoint Sales
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fredpoint-global%2Fdm4h-hdi-test%2Fmaster%2Fworker-only%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
+
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fredpoint-global%2Fdm4h-hdi-test%2Fmaster%2Fworker-only%2Fazuredeploy.json" target="_blank">
+      <img src="http://armviz.io/visualizebutton.png"/>
+</a>
