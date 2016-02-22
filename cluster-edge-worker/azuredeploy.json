@@ -142,7 +142,8 @@
         "clientNodeNicName": "[concat(variables('clusterVNetName'), '-', parameters('clientNodeVirtualMachineName'), '-nic')]",
         "clientNodePublicIpName": "[concat(variables('clientNodeNicName'), '-publicip')]",
         "clientNodeNicRDPSGName": "[concat(variables('clientNodeNicName'), '-rdprule')]",
-        "clientNodeScript": "https://redpoint.blob.core.windows.net/rpdm7/clientsetup.ps1"
+        "clientNodeScriptUrl": "https://redpoint.blob.core.windows.net/rpdm7/clientsetup.ps1",
+		"clientNodeScript": "clientsetup.ps1"
     },
     "resources": [
         {
@@ -519,7 +520,7 @@
                 "type": "CustomScriptExtension",
                 "typeHandlerVersion": "1.4",
                 "settings": {
-                    "fileUris": [ "[variables('clientNodeScript')]" ],
+                    "fileUris": [ "[variables('clientNodeScriptUrl')]" ],
                     "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ',variables('clientNodeScript'))]"
                 }
             }
