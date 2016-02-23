@@ -143,7 +143,7 @@
         "clientNodePublicIpName": "[concat(variables('clientNodeNicName'), '-publicip')]",
         "clientNodeNicRDPSGName": "[concat(variables('clientNodeNicName'), '-rdprule')]",
         "clientNodeScriptUrl": "https://redpoint.blob.core.windows.net/rpdm7/clientsetup.ps1",
-		"clientNodeScript": "clientsetup.ps1"
+        "clientNodeScript": "clientsetup.ps1"
     },
     "resources": [
         {
