@@ -379,8 +379,7 @@
             "apiVersion": "[variables('defaultApiVersion')]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('edgeNodeVirtualMachineName'))]",
-                "[concat('Microsoft.HDInsight/clusters/', parameters('clusterName'))]"
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('edgeNodeVirtualMachineName'))]"
             ],
             "properties": {
                 "publisher": "Microsoft.OSTCExtensions",
